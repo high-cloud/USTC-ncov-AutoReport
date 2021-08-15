@@ -54,10 +54,10 @@ class Report(object):
         }
 
         url = "http://weixine.ustc.edu.cn/2020/daliy_report"
-        session.post(url, data=data, headers=headers)
+        session.post(url, data=data)
         data = session.get("http://weixine.ustc.edu.cn/2020").text
         soup = BeautifulSoup(data, 'html.parser')
-        pattern = re.compile("2020-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}")
+        pattern = re.compile("2021-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}")
         token = soup.find(
             "span", {"style": "position: relative; top: 5px; color: #666;"})
         flag = False
@@ -84,10 +84,13 @@ class Report(object):
             'service': 'http://weixine.ustc.edu.cn/2020/caslogin',
             'username': self.stuid,
             'password': str(self.password),
+            'warn':'', 
+            'showCode':'', 
+            'button':'' 
         }
+        header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36 Edg/92.0.902.73'}
         session = requests.Session()
-        session.post(url, data=data)
-
+        res=session.post(url, data=data,headers=header,allow_redirects=True)
         print("login...")
         return session
 
